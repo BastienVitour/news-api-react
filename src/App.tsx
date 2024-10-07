@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import useFetchData from './hooks/useFetchData'
 import NewsListComponent from './components/NewsListComponent';
+import SearchBarComponent from './components/SearchBarComponent';
+import Article from './models/Article';
+import GlobalContextProvider from './context/GlobalContext';
+import ThemeSwitchComponent from './components/ThemeSwitchComponent';
 
 function App() {
 
-	const [news, setNews] = useState([]);
+	const [news, setNews] = useState<Article[]>([]);
 
 	const callApi = async () => {
 		const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
@@ -20,13 +24,14 @@ function App() {
 	}, [])
 
 	return (
-		<>
-			<input />
+		<GlobalContextProvider>
+			<ThemeSwitchComponent />
+			<SearchBarComponent />
 			{
 				news &&
 				<NewsListComponent news={news} />
 			}
-		</>
+		</GlobalContextProvider>
 	)
 }
 
