@@ -14,9 +14,18 @@ export default async function useFetchData(url: string) {
         const response: AxiosResponse = await axios.get(url, axiosOptions);
         
         console.log(response.data);
+
+        if(response.data.status === "ok") {
+            return response.data;
+        }
+        else {
+            return undefined;
+        }
+
     }
     catch(error: any) {
         console.error(error);
+        return undefined;
     }
 
 }

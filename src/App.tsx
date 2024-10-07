@@ -1,17 +1,32 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import useFetchData from './hooks/useFetchData'
+import NewsListComponent from './components/NewsListComponent';
 
 function App() {
 
-	useEffect(() => {
+	const [news, setNews] = useState([]);
+
+	const callApi = async () => {
 		const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
-		useFetchData(baseApiUrl + "/everything?q=France")
+		const apiResponse = await useFetchData(baseApiUrl + "/everything?q=France");
+
+		if(apiResponse !== undefined) {
+			setNews(apiResponse.articles);
+		}
+	}
+
+	useEffect(() => {
+		callApi()
 	}, [])
 
 	return (
 		<>
 			<input />
+			{
+				news &&
+				<NewsListComponent news={news} />
+			}
 		</>
 	)
 }
