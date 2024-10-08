@@ -11,7 +11,7 @@ export default function SearchBarComponent() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
-        const response = await useFetchData(baseApiUrl + `/everything?q=${state.searchTerm}&language=fr`);
+        const response = await useFetchData(baseApiUrl + `/everything?q=${state.searchTerm}&language=fr&sortBy=relevancy`);
         dispatch({ type: "SET_ARTICLES", payload: response.articles as Article[] });
     }
 

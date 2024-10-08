@@ -3,6 +3,8 @@ import SearchBarComponent from './components/SearchBarComponent';
 import { useGlobalContext } from './context/GlobalContext';
 import ThemeSwitchComponent from './components/ThemeSwitchComponent';
 import clsx from 'clsx';
+import OrderComponent from './components/OrderComponent';
+import ArticleModalComponent from './components/ArticleModalComponent';
 
 function App() {
 
@@ -14,7 +16,14 @@ function App() {
 			<SearchBarComponent />
 			{
 				state.articles &&
-				<NewsListComponent />
+				<>
+					<OrderComponent />
+					<NewsListComponent />
+					{
+						state.articleSelected &&
+						<ArticleModalComponent article={state.articleSelected} />
+					}
+				</>
 			}
 		</div>
 	)

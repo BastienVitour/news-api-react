@@ -3,9 +3,10 @@ import Article from "../models/Article";
 
 interface GlobalState {
     theme: string;
-    modalShown: boolean;
+    articleSelected?: Article;
     articles: Article[];
     searchTerm: string;
+    orderBy: string;
 }
 
 interface GlobalAction {
@@ -15,9 +16,10 @@ interface GlobalAction {
 
 const initialState: GlobalState = {
     theme: "light",
-    modalShown: false,
+    articleSelected: undefined,
     articles: [],
-    searchTerm: ""
+    searchTerm: "",
+    orderBy: "relevancy"
 }
 
 function reducer(state: GlobalState, action: GlobalAction) {
@@ -30,7 +32,7 @@ function reducer(state: GlobalState, action: GlobalAction) {
 		case "TOGGLE_MODAL":
 			return {
                 ...state,
-                modalShown: !state.modalShown 
+                articleSelected: action.payload
             };
 		case "CHANGE_SEARCH_TERM":
 			return {
@@ -41,6 +43,11 @@ function reducer(state: GlobalState, action: GlobalAction) {
             return {
                 ...state,
                 articles: action.payload
+            }
+        case "SET_ORDER_BY":            
+            return {
+                ...state,
+                articles: state.articles.sort()
             }
 		default:
 			throw new Error();
