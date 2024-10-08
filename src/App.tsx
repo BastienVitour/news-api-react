@@ -3,8 +3,9 @@ import useFetchData from './hooks/useFetchData'
 import NewsListComponent from './components/NewsListComponent';
 import SearchBarComponent from './components/SearchBarComponent';
 import Article from './models/Article';
-import GlobalContextProvider from './context/GlobalContext';
+import { useGlobalContext } from './context/GlobalContext';
 import ThemeSwitchComponent from './components/ThemeSwitchComponent';
+import clsx from 'clsx';
 
 function App() {
 
@@ -21,17 +22,19 @@ function App() {
 
 	useEffect(() => {
 		callApi()
-	}, [])
+	}, []);
+
+	const { state, dispatch } = useGlobalContext();
 
 	return (
-		<GlobalContextProvider>
+		<div className={clsx({ "bg-white": state.theme==="light", "bg-black": state.theme==="dark" })}>
 			<ThemeSwitchComponent />
 			<SearchBarComponent />
 			{
 				news &&
 				<NewsListComponent news={news} />
 			}
-		</GlobalContextProvider>
+		</div>
 	)
 }
 
