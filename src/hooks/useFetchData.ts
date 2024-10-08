@@ -1,6 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { useGlobalContext } from "../context/GlobalContext";
+import Article from "../models/Article";
 
 export default async function useFetchData(url: string) {
+
+   // const { state, dispatch } = useGlobalContext();
 
     let apiKey = import.meta.env.VITE_API_KEY;
 
@@ -11,11 +15,12 @@ export default async function useFetchData(url: string) {
     }
 
     try {
-        const response: AxiosResponse = await axios.get(url, axiosOptions);
+        //const response = await axios.get("/data.json");
         
-        console.log(response.data);
+        const response: AxiosResponse = await axios.get(url, axiosOptions);
 
-        if(response.data.status === "ok") {
+        if(response.status === 200) {
+            //dispatch({ type: "SET_ARTICLES", payload: response.data as Article[] });
             return response.data;
         }
         else {

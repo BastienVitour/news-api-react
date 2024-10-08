@@ -1,17 +1,23 @@
 import { createContext, Dispatch, ReactNode, useContext, useReducer } from "react";
+import Article from "../models/Article";
 
 interface GlobalState {
     theme: string;
     modalShown: boolean;
+    articles: Article[];
+    searchTerm: string;
 }
 
 interface GlobalAction {
     type: string;
+    payload: any;
 }
 
 const initialState: GlobalState = {
     theme: "light",
-    modalShown: false
+    modalShown: false,
+    articles: [],
+    searchTerm: ""
 }
 
 function reducer(state: GlobalState, action: GlobalAction) {
@@ -19,13 +25,23 @@ function reducer(state: GlobalState, action: GlobalAction) {
 		case "SWITCH_THEME":
 			return { 
                 ...state,
-                theme: state.theme === "light" ? "dark" : "light" 
+                theme: action.payload
             };
 		case "TOGGLE_MODAL":
 			return {
                 ...state,
                 modalShown: !state.modalShown 
             };
+		case "CHANGE_SEARCH_TERM":
+			return {
+                ...state,
+                searchTerm: action.payload
+            };
+        case "SET_ARTICLES":            
+            return {
+                ...state,
+                articles: action.payload
+            }
 		default:
 			throw new Error();
 	}
